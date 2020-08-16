@@ -54,8 +54,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'guard'
+  gem 'guard-sass'
+  gem 'guard-livereload'
   gem 'better_errors', '~> 2.7', '>= 2.7.1'
-  gem 'guard-livereload', '~> 2.5', '>= 2.5.2', require: false
+  gem 'rb-readline'
 end
 
 group :test do
