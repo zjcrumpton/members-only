@@ -10,9 +10,36 @@
   </head>
 
   <body>
-    	<% if flash[:notice] %>
-  		<div class="notification is-primary global-notification">
-  			<p class="notice"><%= notice %></p>
+    <nav class="navbar has-background-info pb-1" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <%= link_to "Members-Only", posts_path, class: "navbar-item mt-1 has-text-white" %>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <%= link_to "Home", posts_path, class: "navbar-item button is-info mt-2 has-text-white" %>
+        </div>
+
+        <div class="navbar-end">
+          <% if user_signed_in? %>
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "navbar-item button mt-2 mr-3 is-info has-text-white" %>
+          <% else %>
+            <%= link_to  "Sign-Up", "/users/sign_up", class: "navbar-item button is-primary mr-2 mt-2 has-text-white is-info" %>
+            <%= link_to  "Log-In", new_user_session_path, class: "navbar-item button is-primary mr-2 mt-2 has-text-white is-info" %>
+          <% end %>
+        </div>
+      </div>
+    </nav> 
+    <% if flash[:notice] %>
+  		<div class="notification is-primary">
+        <button class="delete"></button>
+        <p class="notice"><%= notice %></p>
   		</div>
   	<% end %>
   	<% if flash[:alert] %>
@@ -20,42 +47,16 @@
   			<p class="alert"><%= alert %></p>
   		</div>
   	<% end %>
-      <!-- This "nav-toggle" hamburger menu is only visible on mobile -->
-      <!-- You need JavaScript to toggle the "is-active" class on "nav-menu" -->
-      <span class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
-    
-      <!-- This "nav-menu" is hidden on mobile -->
-      <!-- Add the modifier "is-active" to display it on mobile -->
-      <div class="nav-right nav-menu">
-        <a href="/posts" class="nav-item">
-          Members-Only
-        </a>
-        <a href="./users/sign_in" class="nav-item">
-          Sign-In
-        </a>
-        <a class="nav-item">
-          <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
-        </a>
-    
-        <span class="nav-item">
-          <a class="button" >
-            <span class="icon">
-              <i class="fa fa-twitter"></i>
-            </span>
-            <span>Tweet</span>
-          </a>
-          <a class="button is-primary">
-            <span class="icon">
-            </span>
-            <span>Download</span>
-          </a>
-        </span>
-      </div>
-    </nav>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        $notification = $delete.parentNode;
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
+    });
+    </script>         
     <%= yield %>
   </body>
 </html>
